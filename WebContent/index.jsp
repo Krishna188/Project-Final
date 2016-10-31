@@ -6,6 +6,9 @@
         <%@ include file="includes/head.html" %>
     </head>
     <body class="h_yellow">
+    <% if(session.getAttribute("username") != null ) {
+    	response.sendRedirect(session.getAttribute("role").toString().trim().toLowerCase()+".jsp");    		
+    }  %>
         <div class="container-fluid">
 
              <div class="row head">
@@ -40,7 +43,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-sm-12">
-                                <form action="" method="post" id="login-form" class="form"> <!--Action File Name here-->
+                                <form action="Login" method="post" id="login-form" class="form"> <!--Action File Name here-->
                                     <!--form data-->
                                     <br>
                                     <label for="username" class="form-field">Username</label>

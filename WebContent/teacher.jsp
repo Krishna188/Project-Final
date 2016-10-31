@@ -6,6 +6,9 @@
         <%@include file="includes/head.html" %>
     </head>
     <body>
+     <% if(session.getAttribute("username") == null ) {
+    	response.sendRedirect("index.jsp");    		
+    }  %>
         <div class="container-fluid">
         <%@include file="includes/header.jsp" %>
             <div class="row">
