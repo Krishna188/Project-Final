@@ -59,10 +59,7 @@ public class Login extends HttpServlet {
 					session.setAttribute("first", data.get("FIRSTNAME"));
 					session.setAttribute("last", data.get("LASTNAME"));
 					session.setAttribute("pass", data.get("PASSWORD"));
-				
-//					request.getRequestDispatcher("/admin.jsp").forward(request, response);
-//					//	response.sendRedirect(data.get("ROLE").toLowerCase().trim().toString() + ".jsp");
-//					
+					
 					// before loading timetable for student do following
 					if(data.get("ROLE").equals("STUDENT"))
 					{

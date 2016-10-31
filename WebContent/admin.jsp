@@ -6,10 +6,13 @@
     <head>
    <%@include file = "includes/head.html" %> 
   </head>
+   <% if(session.getAttribute("username") == null ) {
+    	response.sendRedirect("index.jsp");    		
+    }  %>
     <body>
         <div class="container-fluid">
             <%@include file = "includes/header.jsp" %> 
-
+			
             <div class="row">
                 <div class="panel-group" id="accordion">
                     <div class="panel panel-default">

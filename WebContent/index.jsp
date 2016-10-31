@@ -6,6 +6,9 @@
         <%@ include file="includes/head.html" %>
     </head>
     <body class="h_yellow">
+    <% if(session.getAttribute("username") != null ) {
+    	response.sendRedirect(session.getAttribute("role").toString().trim().toLowerCase()+".jsp");    		
+    }  %>
         <div class="container-fluid">
 
              <div class="row head">
