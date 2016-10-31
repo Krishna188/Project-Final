@@ -1,14 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <% 
+    	if(session.getAttribute("username") != null ) 
+    	{
+    		response.sendRedirect(session.getAttribute("role").toString().trim().toLowerCase()+".jsp");    		
+    	}
+    %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
     <head>
         <%@ include file="includes/head.html" %>
     </head>
     <body class="h_yellow">
-    <% if(session.getAttribute("username") != null ) {
-    	response.sendRedirect(session.getAttribute("role").toString().trim().toLowerCase()+".jsp");    		
-    }  %>
         <div class="container-fluid">
 
              <div class="row head">
@@ -27,6 +30,7 @@
                         Display Result
                     -->
                     ${result}
+                    <% session.setAttribute("result", null); %>
                 </div>
                 <div class="col-sm-4"></div>
              </div>

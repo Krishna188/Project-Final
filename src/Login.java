@@ -35,11 +35,9 @@ public class Login extends HttpServlet {
 		if(username == null || password == null || username.isEmpty() || password.isEmpty()) //form username and password is empty
 		{
 			// setting error message to variable
-			String error = new Display(Display.Type.ERROR).getHtml("Both username and password are required to process your request!\n Please try again!");
-			// code to redirect to index.html(Login Page) with error string set in session so message can be displayed in the error div.
-			response.getWriter().append("Served at: ").append(request.getContextPath()).append("\rResponse: ").append(error);
+			String result = new Display(Display.Type.ERROR).getHtml("Both username and password are required to process your request!\n Please try again!");
 			HttpSession session = request.getSession();
-			session.setAttribute("error", error);
+			session.setAttribute("result", result);
 			response.sendRedirect("index.jsp");
 		}
 		else // username and password not empty(Valid)
@@ -69,7 +67,7 @@ public class Login extends HttpServlet {
 						}
 						catch(Exception ex)
 						{
-							session.setAttribute("error", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
+							session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 						}
 					} else if(data.get("ROLE").equals("TEACHER")) 
 					{
@@ -82,7 +80,7 @@ public class Login extends HttpServlet {
 						}
 						catch(Exception ex)
 						{
-							session.setAttribute("error", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
+							session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 						}
 					} else if(data.get("ROLE").equals("ADMIN")){
 						try{
@@ -94,7 +92,7 @@ public class Login extends HttpServlet {
 						}
 						catch(Exception ex)
 						{
-							session.setAttribute("error", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
+							session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 						}
 					}
 					System.out.println(data.get("ROLE"));
@@ -103,13 +101,13 @@ public class Login extends HttpServlet {
 				} 
 				else
 				{
-					session.setAttribute("error", new Display(Display.Type.ERROR).getHtml("No User Found with the database"));
-					//response.sendRedirect("index.jsp");
+					session.setAttribute("result", new Display(Display.Type.ERROR).getHtml("No User Found in the database"));
+					response.sendRedirect("index.jsp");
 				}
 			}
 			catch(Exception ex)
 			{
-				session.setAttribute("error", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
+				session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 				response.sendRedirect("index.jsp");
 			}
 		}

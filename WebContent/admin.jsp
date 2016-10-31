@@ -1,14 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@include file="includes/pageRedirect.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html lang="en">
     <head>
    <%@include file = "includes/head.html" %> 
   </head>
-   <% if(session.getAttribute("username") == null ) {
-    	response.sendRedirect("index.jsp");    		
-    }  %>
     <body>
         <div class="container-fluid">
             <%@include file = "includes/header.jsp" %> 
