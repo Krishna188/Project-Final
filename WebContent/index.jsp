@@ -40,7 +40,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-sm-12">
-                                <form action="" method="post" id="login-form" class="form"> <!--Action File Name here-->
+                                <form action="Login" method="post" id="login-form" class="form"> <!--Action File Name here-->
                                     <!--form data-->
                                     <br>
                                     <label for="username" class="form-field">Username</label>

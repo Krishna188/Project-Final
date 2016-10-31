@@ -30,17 +30,21 @@ public class Database {
 	 */
 	public ArrayList<HashMap<String, String>> execute(String query) throws Exception
 	{
+		
 		Connection connection = null;
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection(this.conn_string);
+			
 			ResultSet rs = connection.createStatement().executeQuery(query);
 			ResultSetMetaData meta = rs.getMetaData();
+		
 			int col_count = meta.getColumnCount();
             ArrayList<String> column_names = new ArrayList<>();
             for (int i = 0; i < col_count ; i++) {
                 column_names.add(meta.getColumnName((i+1)));
+            	
             }
             ArrayList <HashMap<String, String>> data = new ArrayList<>();
             while(rs.next())
@@ -50,7 +54,7 @@ public class Database {
                     map.put(column_names.get(i), rs.getString((i+1)));
                 }
 
-                data.add(map);
+                data.add(map); 	
             }
             return data;
 		}
