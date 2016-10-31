@@ -51,15 +51,19 @@ public class Login extends HttpServlet {
 				
 				if(valid)
 				{
+					
 					HashMap<String,String> data = new Logic().get_info(username);
 					
-					System.out.println(data.get("ROLE"));
-				//	session.setAttribute("username", data.get("USERNAME"));
+					session.setAttribute("username", data.get("USERNAME"));
 					session.setAttribute("role", data.get("ROLE"));
-//					session.setAttribute("first", data.get("FIRSTNAME"));
-//					session.setAttribute("last", data.get("LASTNAME"));
-//					session.setAttribute("pass", data.get("PASSWORD"));
-//					// before loading timetable for student do following
+					session.setAttribute("first", data.get("FIRSTNAME"));
+					session.setAttribute("last", data.get("LASTNAME"));
+					session.setAttribute("pass", data.get("PASSWORD"));
+				
+//					request.getRequestDispatcher("/admin.jsp").forward(request, response);
+//					//	response.sendRedirect(data.get("ROLE").toLowerCase().trim().toString() + ".jsp");
+//					
+					// before loading timetable for student do following
 					if(data.get("ROLE").equals("STUDENT"))
 					{
 						try
@@ -70,8 +74,7 @@ public class Login extends HttpServlet {
 						{
 							session.setAttribute("error", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 						}
-					} 
-					else if(data.get("ROLE").equals("TEACHER")) 
+					} else if(data.get("ROLE").equals("TEACHER")) 
 					{
 						try
 						{
@@ -84,7 +87,7 @@ public class Login extends HttpServlet {
 						{
 							session.setAttribute("error", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 						}
-					}else if(data.get("ROLE").equals("ADMIN")){
+					} else if(data.get("ROLE").equals("ADMIN")){
 						try{
 							
 //							session.setAttribute("data", new Logic().get_number_of_users());
@@ -97,6 +100,7 @@ public class Login extends HttpServlet {
 							session.setAttribute("error", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 						}
 					}
+					System.out.println(data.get("ROLE"));
 					// redirect to role page URL
 					response.sendRedirect(data.get("ROLE").toLowerCase().trim().toString() + ".jsp");
 				} 

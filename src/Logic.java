@@ -47,22 +47,30 @@ public class Logic {
 	
 	public HashMap<String,String> get_info(String username) throws Exception {
 		
-		HashMap<String,String> data =null;
+		HashMap<String,String> data =new HashMap<>();
 		
 		String query = String.format(Query.SELECT_ALL_FROM.toString(), "USER",username.trim().toUpperCase());
 		
 		ArrayList<HashMap<String,String>> user = database.execute(query);
 		
+		query = String.format(Query.SELECT_ALL_FROM.toString(),user.get(0).get("ROLE").toUpperCase().trim(),username.trim().toUpperCase() );
+		
+		user.addAll(database.execute(query));
 		
 		if(user.isEmpty())
 		{
 			throw new Exception("No user found with that username!");
 		}
 		else {
+			data.put("ROLE", user.get(0).get("ROLE").toString());
+			data.put("USERNAME", user.get(0).get("USERNAME").toString());
+			data.put("PASSWORD", user.get(0).get("PASSWORD").toString());
+			data.put("FIRSTNAME", user.get(1).get("FIRSTNAME").toString());
+			data.put("LASTNAME", user.get(1).get("LASTNAME").toString());
+			return data;
 			
 		}
 		
-		return data;
 	}
 	
 	
