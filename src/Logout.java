@@ -30,9 +30,8 @@ public class Logout extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		if(session != null) {
-			System.out.println("IN logout");
 			session.removeAttribute("username");
-			System.out.println(session.getAttribute("username"));
+		
 			response.sendRedirect("index.jsp");
 		}
 		

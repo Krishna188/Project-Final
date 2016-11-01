@@ -73,5 +73,68 @@ public class Logic {
 		
 	}
 	
+	public String get_teacher_list() throws Exception {
+
+		String data = " ";
+		try {
+			String query = String.format(Query.SELECT_INFO_OF_TEACHERS.toString());
+			ArrayList<HashMap<String,String>> teachers = database.execute(query);
+			if(teachers.size() != 0)
+			{
+				data = "<table class=\"table table-striped table-bordered table-hover table-responsive \">"
+						+ "<tr> <th>USERNAME</th> <th>FIRST NAME</th> <th>LAST NAME</th> </tr>";
+			
+				for(int i=0 ; i < teachers.size(); i++)
+				{
+					data += String.format("<tr> <td>%s</td> <td>%s</td> <td>%s</td> </tr>",
+							teachers.get(i).get("USERNAME").toString(),teachers.get(i).get("FIRSTNAME").toString(),
+							teachers.get(i).get("LASTNAME").toString());
+					
+				}
+				data += "</table>";
+			}
+		} 
+		catch (Exception e) {
+			throw e;
+		}
+		if(data == " ")
+		{
+			data = new Display(Display.Type.INFO).getHtml("No Teachers added.");
+		}
+		return data;
+	}
 	
+	public String get_student_list() throws Exception
+	{
+		
+		String data = " ";
+		try {
+			String query = String.format(Query.SELECT_INFO_OF_STUDENTS.toString());
+			ArrayList<HashMap<String,String>> students = database.execute(query);
+			if(students.size() != 0)
+			{
+				data = "<table class=\"table table-striped table-bordered table-hover table-responsive \">"
+						+ "<tr> <th>USERNAME</th> <th>FIRST NAME</th> <th>LAST NAME</th><th colspan=\"2\">Actions</th> </tr>";
+				for(int i=0 ; i < students.size(); i++)
+				{
+					data += String.format("<tr> <td>%s</td> <td>%s</td> <td>%s</td><td>%s %s</td> </tr>",
+							students.get(i).get("USERNAME").toString(),students.get(i).get("FIRSTNAME").toString(),
+							students.get(i).get("LASTNAME").toString(),
+							"<a href=\"Delete?username="+students.get(i).get("USERNAME").toString()+"\">Delete</a>",
+							"<a href=\"Edit?username="+(students.get(i).get("USERNAME").toString())+"\">Edit</a>")
+							;
+					
+				}
+				data += "</table>";
+			}
+		} 
+		catch (Exception e) {
+			throw e;
+		}
+		if(data == " ")
+		{
+			data = new Display(Display.Type.INFO).getHtml("No Students added.");
+		}
+		return data;
+	}
 }

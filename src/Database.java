@@ -29,8 +29,7 @@ public class Database {
 	 * @throws Exception
 	 */
 	public ArrayList<HashMap<String, String>> execute(String query) throws Exception
-	{
-		
+	{	
 		Connection connection = null;
 		try
 		{
