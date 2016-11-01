@@ -3,10 +3,26 @@
     <%@include file="includes/pageRedirect.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
+
 <html lang="en">
     <head>
    <%@include file = "includes/head.html" %> 
   </head>
+<<<<<<< HEAD
+=======
+   <% if(session.getAttribute("username") == null ) {
+    	response.sendRedirect("index.jsp");    		
+    }
+   
+   if(request.getParameter("refresh") != null) {
+	session.setAttribute("data2", new Logic().get_teacher_list());
+	session.setAttribute("data3", new Logic().get_student_list());						
+
+   }
+   %>
+   
+     
+>>>>>>> origin/Devs
     <body>
         <div class="container-fluid">
             <%@include file = "includes/header.jsp" %> 
@@ -34,7 +50,7 @@
                             <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">View Teacher</a></h4>
                         </div>
                         <div id="collapse3" class="panel-collapse collapse out">
-                            <div class="panel-body"></div>
+                            <div class="panel-body"> ${data2 }</div>
                         </div>
                     </div>
                     <div class="panel panel-default">
@@ -42,12 +58,12 @@
                             <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">View Student</a></h4>
                         </div>
                         <div id="collapse4" class="panel-collapse collapse out">
-                            <div class="panel-body"></div> 
+                            <div class="panel-body"> ${ data3 } </div> 
                         </div>
                     </div>
                 </div>
             </div>
-
+				<input type="hidden" name="refresh">
         </div>
     </body>  
     <%@include file = "includes/foot.html" %> 

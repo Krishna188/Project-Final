@@ -80,17 +80,20 @@ public class Login extends HttpServlet {
 						try{
 							
 //							session.setAttribute("data", new Logic().get_number_of_users());
-//							session.setAttribute("data2", new Logic().get_teacher_list());
-//							session.setAttribute("data3", new Logic().get_student_list());
-//							
+							session.setAttribute("data2", new Logic().get_teacher_list());
+							session.setAttribute("data3", new Logic().get_student_list());						
 						}
 						catch(Exception ex)
 						{
 							session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 						}
 					}
+<<<<<<< HEAD
 					// printed confirmed role
 					System.out.println(data.get("ROLE"));
+=======
+				
+>>>>>>> origin/Devs
 					// redirect to role page URL
 					response.sendRedirect(data.get("ROLE").toLowerCase().trim().toString() + ".jsp");
 				} 
