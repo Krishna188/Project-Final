@@ -61,15 +61,9 @@ public class Login extends HttpServlet {
 					// before loading timetable for student do following
 					if(data.get("ROLE").equals("STUDENT"))
 					{
-						try
-						{
-							//session.setAttribute("data", new Logic().get_student_exams(data.get("USERNAME")));
-						}
-						catch(Exception ex)
-						{
-							session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
-						}
-					} else if(data.get("ROLE").equals("TEACHER")) 
+						new Logic().getStudentExam(session);
+					} 
+					else if(data.get("ROLE").equals("TEACHER")) 
 					{
 						try
 						{
@@ -95,6 +89,7 @@ public class Login extends HttpServlet {
 							session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 						}
 					}
+					// printed confirmed role
 					System.out.println(data.get("ROLE"));
 					// redirect to role page URL
 					response.sendRedirect(data.get("ROLE").toLowerCase().trim().toString() + ".jsp");
@@ -119,5 +114,5 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
+	
 }

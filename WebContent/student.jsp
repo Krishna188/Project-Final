@@ -31,7 +31,8 @@
                                     <th>End Time</th>
                                 </tr>
                                 <!--Input Data here if the data is available i.e. if the exams are scheduled-->
-                                ${result}
+    								${result}
+                                <% session.setAttribute("result", ""); %>
                             </table>
                         </div>
                     <!-- Displayer Above -->

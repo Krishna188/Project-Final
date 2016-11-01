@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 public class Logic {
 	
 	protected Database database;
@@ -31,7 +33,7 @@ public class Logic {
 			ArrayList<HashMap<String,String>> data = database.execute(query);
 			if(data.isEmpty())
 			{
-				throw new Exception("No user found with that username!");
+				throw new Exception("No username password combination found!");
 			}
 			else if(data.size() == 1)
 			{
@@ -45,7 +47,8 @@ public class Logic {
 		return false;
 	}
 	
-	public HashMap<String,String> get_info(String username) throws Exception {
+	public HashMap<String,String> get_info(String username) throws Exception 
+	{
 		
 		HashMap<String,String> data =new HashMap<>();
 		
@@ -61,17 +64,55 @@ public class Logic {
 		{
 			throw new Exception("No user found with that username!");
 		}
-		else {
+		else 
+		{
 			data.put("ROLE", user.get(0).get("ROLE").toString());
 			data.put("USERNAME", user.get(0).get("USERNAME").toString());
 			data.put("PASSWORD", user.get(0).get("PASSWORD").toString());
 			data.put("FIRSTNAME", user.get(1).get("FIRSTNAME").toString());
 			data.put("LASTNAME", user.get(1).get("LASTNAME").toString());
-			return data;
-			
+			return data;			
 		}
 		
 	}
 	
+	protected String get_student_exams(String username) throws Exception
+	{
+		String user = username.trim().toUpperCase();
+		String query = String.format(Query.SELECT_SCHEDULED_EXAMS.toString(), user);
+		ArrayList<HashMap<String,String>> data = database.execute(query);
+		if(data.isEmpty())
+		{
+			return new Display(Display.Type.INFO).getHtml("No Exams Scheduled for Student Yet!");
+		}
+		else
+		{
+			StringBuilder sb = new StringBuilder();
+			for(int i = 0 ; i < data.size() ; i++)
+			{
+				sb.append(String.format(
+						"<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
+						data.get(i).get("COURSE_CODE").toString(),
+						data.get(i).get("ROOM_NO").toString(),
+						data.get(i).get("EXAM_DATE").toString(),
+						data.get(i).get("START_TIME").toString(),
+						data.get(i).get("END_TIME").toString()
+						));
+			}
+			return sb.toString();
+		}
+	}
+	
+	public void getStudentExam(HttpSession session)
+	{
+		try
+		{
+			session.setAttribute("result", new Logic().get_student_exams(session.getAttribute("username").toString()));
+		}
+		catch(Exception ex)
+		{
+			session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
+		}
+	}
 	
 }
