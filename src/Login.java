@@ -35,11 +35,9 @@ public class Login extends HttpServlet {
 		if(username == null || password == null || username.isEmpty() || password.isEmpty()) //form username and password is empty
 		{
 			// setting error message to variable
-			String error = new Display(Display.Type.ERROR).getHtml("Both username and password are required to process your request!\n Please try again!");
-			// code to redirect to index.html(Login Page) with error string set in session so message can be displayed in the error div.
-			response.getWriter().append("Served at: ").append(request.getContextPath()).append("\rResponse: ").append(error);
+			String result = new Display(Display.Type.ERROR).getHtml("Both username and password are required to process your request!\n Please try again!");
 			HttpSession session = request.getSession();
-			session.setAttribute("error", error);
+			session.setAttribute("result", result);
 			response.sendRedirect("index.jsp");
 		}
 		else // username and password not empty(Valid)
@@ -63,52 +61,44 @@ public class Login extends HttpServlet {
 					// before loading timetable for student do following
 					if(data.get("ROLE").equals("STUDENT"))
 					{
-						try
-						{
-							//session.setAttribute("data", new Logic().get_student_exams(data.get("USERNAME")));
-						}
-						catch(Exception ex)
-						{
-							session.setAttribute("error", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
-						}
-					} else if(data.get("ROLE").equals("TEACHER")) 
+						new Logic().getStudentExam(session);
+					}
+					else if(data.get("ROLE").equals("TEACHER")) 
 					{
 						try
 						{
-//							session.setAttribute("data", new Logic().get_scheduled_courses(data.get("USERNAME")));
-//							session.setAttribute("courses", new Logic().get_all_courses(data.get("USERNAME")));
-//							session.setAttribute("rooms", new Logic().get_all_rooms());
-//							
+							new Logic().getStudentExam(session);
 						}
 						catch(Exception ex)
 						{
-							session.setAttribute("error", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
+							session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 						}
 					} else if(data.get("ROLE").equals("ADMIN")){
 						try{
-							
-//							session.setAttribute("data", new Logic().get_number_of_users());
 							session.setAttribute("data2", new Logic().get_teacher_list());
 							session.setAttribute("data3", new Logic().get_student_list());						
 						}
 						catch(Exception ex)
 						{
-							session.setAttribute("error", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
+							session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 						}
 					}
-				
+					
+					// printed confirmed role
+					System.out.println(data.get("ROLE"));
+
 					// redirect to role page URL
 					response.sendRedirect(data.get("ROLE").toLowerCase().trim().toString() + ".jsp");
 				} 
 				else
 				{
-					session.setAttribute("error", new Display(Display.Type.ERROR).getHtml("No User Found with the database"));
-					//response.sendRedirect("index.jsp");
+					session.setAttribute("result", new Display(Display.Type.ERROR).getHtml("No User Found in the database"));
+					response.sendRedirect("index.jsp");
 				}
 			}
 			catch(Exception ex)
 			{
-				session.setAttribute("error", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
+				session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 				response.sendRedirect("index.jsp");
 			}
 		}
@@ -120,5 +110,5 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
+	
 }

@@ -1,14 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@include file="includes/pageRedirect.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
     <head>
         <%@include file="includes/head.html" %>
     </head>
     <body>
-     <% if(session.getAttribute("username") == null ) {
-    	response.sendRedirect("index.jsp");    		
-    }  %>s
         <div class="container-fluid">
               <%@include file="includes/header.jsp" %>
      
@@ -33,7 +31,8 @@
                                     <th>End Time</th>
                                 </tr>
                                 <!--Input Data here if the data is available i.e. if the exams are scheduled-->
-                                ${result}
+    								${result}
+                                <% session.setAttribute("result", ""); %>
                             </table>
                         </div>
                     <!-- Displayer Above -->
