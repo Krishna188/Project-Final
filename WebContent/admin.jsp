@@ -9,7 +9,6 @@
    <%@include file = "includes/head.html" %> 
   </head>
   
-<<<<<<< Updated upstream
     <body>
 =======
    <% if(session.getAttribute("username") == null ) {
