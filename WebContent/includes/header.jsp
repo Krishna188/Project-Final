@@ -19,8 +19,9 @@
                                     </div>
                                     <div id="navbar" class="navbar-collapse collapse">
                                         <ul class="nav navbar-nav">
-                                            <li><a href="">Home - Welcome ${first}</a></li>
-                                            <li><a href="account_settings.php">Account Settings</a></li>
+                                        	<% session.setAttribute("homelocation", session.getAttribute("role").toString().toLowerCase().concat(".jsp")); %>
+                                            <li><a href='${homelocation}'>Home - Welcome ${first}</a></li>
+                                            <li><a href="account_settings.jsp">Account Settings</a></li>
                                         </ul>
                                         <ul class="nav navbar-nav navbar-right">
                                         	<li><a href="Logout">Logout</a></li>
