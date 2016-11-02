@@ -54,8 +54,7 @@
 					<div id="collapse2" class="panel-collapse collapse out">
 						<div class="panel-body">
 							<%@include file="includes/new_exam.jsp"%>
-							${result}
-								<% session.setAttribute("result", ""); %>
+						
 						</div>
 					</div>
 				</div>
@@ -63,6 +62,8 @@
 		</div>
 
 	</div>
+		${result}
+		<% session.setAttribute("result", ""); %>
 </body>
 <%@include file="includes/foot.html"%>
 </html>
