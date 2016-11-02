@@ -31,7 +31,8 @@ public class Logout extends HttpServlet {
 		
 		if(session != null) {
 			session.removeAttribute("username");
-		
+			session.setAttribute("result", new Display(Display.Type.SUCCESS).getHtml("You have logged out successfully"));
+			
 			response.sendRedirect("index.jsp");
 		}
 		

@@ -30,7 +30,7 @@
                         Display Result
                     -->
                     ${result}
-                    <% session.setAttribute("result", null); %>
+                    <% session.setAttribute("result", ""); %>
                 </div>
                 <div class="col-sm-4"></div>
              </div>
