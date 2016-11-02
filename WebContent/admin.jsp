@@ -10,7 +10,6 @@
   </head>
   
     <body>
-=======
    <% if(session.getAttribute("username") == null ) {
     	response.sendRedirect("index.jsp");    		
     }
@@ -18,7 +17,6 @@
    %>
    
 	 <body>
->>>>>>> Stashed changes
         <div class="container-fluid">
             <%@include file = "includes/header.jsp" %> 
 			
