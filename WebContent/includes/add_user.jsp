@@ -1,5 +1,7 @@
 <div class="col-sm-12">
-    <form method="post" action="" id="add_user">
+	${add_result}
+	<% session.setAttribute("add_result", ""); %>
+    <form method="post" action="AddUser" id="add_user">
         <section class="col-sm-8">
             <fieldset>
                 <div class="form-group">

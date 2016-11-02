@@ -62,15 +62,12 @@ public class Login extends HttpServlet {
 					if(data.get("ROLE").equals("STUDENT"))
 					{
 						new Logic().getStudentExam(session);
-					} 
+					}
 					else if(data.get("ROLE").equals("TEACHER")) 
 					{
 						try
 						{
-//							session.setAttribute("data", new Logic().get_scheduled_courses(data.get("USERNAME")));
-//							session.setAttribute("courses", new Logic().get_all_courses(data.get("USERNAME")));
-//							session.setAttribute("rooms", new Logic().get_all_rooms());
-//							
+							new Logic().getStudentExam(session);
 						}
 						catch(Exception ex)
 						{
@@ -78,8 +75,6 @@ public class Login extends HttpServlet {
 						}
 					} else if(data.get("ROLE").equals("ADMIN")){
 						try{
-							
-//							session.setAttribute("data", new Logic().get_number_of_users());
 							session.setAttribute("data2", new Logic().get_teacher_list());
 							session.setAttribute("data3", new Logic().get_student_list());						
 						}
@@ -88,12 +83,10 @@ public class Login extends HttpServlet {
 							session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 						}
 					}
-<<<<<<< HEAD
+					
 					// printed confirmed role
 					System.out.println(data.get("ROLE"));
-=======
-				
->>>>>>> origin/Devs
+
 					// redirect to role page URL
 					response.sendRedirect(data.get("ROLE").toLowerCase().trim().toString() + ".jsp");
 				} 

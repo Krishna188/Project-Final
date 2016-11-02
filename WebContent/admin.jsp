@@ -8,21 +8,7 @@
     <head>
    <%@include file = "includes/head.html" %> 
   </head>
-<<<<<<< HEAD
-=======
-   <% if(session.getAttribute("username") == null ) {
-    	response.sendRedirect("index.jsp");    		
-    }
-   
-   if(request.getParameter("refresh") != null) {
-	session.setAttribute("data2", new Logic().get_teacher_list());
-	session.setAttribute("data3", new Logic().get_student_list());						
-
-   }
-   %>
-   
-     
->>>>>>> origin/Devs
+  
     <body>
         <div class="container-fluid">
             <%@include file = "includes/header.jsp" %> 
@@ -50,7 +36,7 @@
                             <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">View Teacher</a></h4>
                         </div>
                         <div id="collapse3" class="panel-collapse collapse out">
-                            <div class="panel-body"> ${data2 }</div>
+                            <div class="panel-body"> ${data2}</div>
                         </div>
                     </div>
                     <div class="panel panel-default">

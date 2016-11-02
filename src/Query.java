@@ -11,10 +11,10 @@ public enum Query {
 	+ "WHERE USER_COURSES.USERNAME='%s' ORDER BY EXAM_DATE"),
 	
 	//a sql query to get  course code all courses being taught or taken by teachers or students respectively
-	GET_COURSES("SELECT COURSE_CODE FROM USER_COURSES WHERE USERNAME='%s'"),
+	GET_COURSES("SELECT COURSE_CODE FROM USER_COURSES WHERE USERNAME='%s'"), // X
 	
 	//a sql query to get all rooms in organization
-	GET_ROOMS("SELECT * FROM ROOMS"),
+	GET_ROOMS("SELECT * FROM ROOMS"), // X
 
 	//a sql query to count users
 	SELECT_NUMBER_OF_USERS("SELECT COUNT(*) AS TOTAL FROM USER"),
@@ -38,8 +38,16 @@ public enum Query {
 	EDIT_USER_NAME("UPDATE '%s' SET FIRSTNAME='%s', LASTNAME='%s'WHERE USERNAME='%s' "),
 	
 	//a sql query to update role
-	EDIT_ROLE("UPDATE USER SET ROLE='%s' WHERE USERNAME='%s'")
-
+	EDIT_ROLE("UPDATE USER SET ROLE='%s' WHERE USERNAME='%s'"),
+	
+	//a sql query to insert users into user table
+	INSERT_INTO_USER("INSERT INTO USER VALUES ('%s', '%s', '%s')"), //ACCEPTS USERNAME, PASS, ROLE
+	
+	//a sql query to insert user's name to role specified table
+	INSERT_INTO_ROLE("INSERT INTO %s VALUES ('%s', '%s', '%s')"),
+	
+	DELETE_USER_USERNAME("DELETE FROM USER WHERE USERNAME='%s'");
+	
 	;
 	
 

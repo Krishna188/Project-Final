@@ -76,7 +76,6 @@ public class Logic {
 		
 	}
 	
-<<<<<<< HEAD
 	protected String get_student_exams(String username) throws Exception
 	{
 		String user = username.trim().toUpperCase();
@@ -84,7 +83,7 @@ public class Logic {
 		ArrayList<HashMap<String,String>> data = database.execute(query);
 		if(data.isEmpty())
 		{
-			return new Display(Display.Type.INFO).getHtml("No Exams Scheduled for Student Yet!");
+			return new Display(Display.Type.INFO).getHtml("No Exams Scheduled Yet!");
 		}
 		else
 		{
@@ -114,7 +113,8 @@ public class Logic {
 		{
 			session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 		}
-=======
+	}
+	
 	public String get_teacher_list() throws Exception {
 
 		String data = " ";
@@ -144,7 +144,6 @@ public class Logic {
 			data = new Display(Display.Type.INFO).getHtml("No Teachers added.");
 		}
 		return data;
->>>>>>> origin/Devs
 	}
 	
 	public String get_student_list() throws Exception
@@ -180,4 +179,33 @@ public class Logic {
 		}
 		return data;
 	}
+	
+	public boolean add_user(String username, String password, String role, String firstname, String lastname) throws Exception
+	{
+		username = username.toUpperCase().trim();
+		password = password.trim();
+		role = role.toUpperCase().trim();
+		firstname = firstname.toUpperCase().trim();
+		lastname = lastname.toUpperCase().trim();
+		String query = String.format(Query.INSERT_INTO_USER.toString(),username,password,role);
+		if(database.executeDML(query, 1))
+		{
+			// correctly added user into user table
+			query = String.format(Query.INSERT_INTO_ROLE.toString(), role, username, firstname, lastname);
+			if(database.executeDML(query, 1))
+			{
+				return true;
+			}
+			else
+			{
+				database.execute(String.format(Query.DELETE_USER_USERNAME.toString(),username));
+				return false;
+			}
+		}
+		else
+		{
+			throw new Exception("Failed to add user to the users.");
+		}
+	}
+	
 }
