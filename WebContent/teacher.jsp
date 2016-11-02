@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@include file="includes/pageRedirect.jsp"%>
-<%@page  import="Classes.Logic" %>
+<%@page import="Classes.Logic" %>
 <%
 	if(!session.getAttribute("role").toString().equals("TEACHER"))
 	{
