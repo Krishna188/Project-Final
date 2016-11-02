@@ -1,7 +1,6 @@
+package Classes;
 
 import java.io.IOException;
-import java.util.HashMap;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,16 +9,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class Edit
+ * Servlet implementation class Modify
  */
-@WebServlet("/Edit")
-public class Edit extends HttpServlet {
+@WebServlet("/Modify")
+public class Modify extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Edit() {
+	public Modify() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -31,24 +30,21 @@ public class Edit extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String firstname = request.getParameter("fname");
+		String lastname = request.getParameter("lname");
+		String role = request.getParameter("role");
 
-		HashMap<String, String> data = new HashMap<String, String>();
+		HttpSession session = request.getSession();
 
 		try {
-			data = new Logic().get_info(username);
-			HttpSession session = request.getSession();
-			session.setAttribute("USERNAME", data.get("USERNAME"));
-			session.setAttribute("FIRSTNAME", data.get("FIRSTNAME"));
-			session.setAttribute("LASTNAME", data.get("LASTNAME"));
-			session.setAttribute("ROLE", data.get("ROLE"));
-			session.setAttribute("PASSWORD", data.get("PASSWORD"));
-			session.setAttribute("result", new Display(Display.Type.SUCCESS).getHtml("User Modified"));
-
-			response.sendRedirect("modify_user.jsp");
+			new Logic().modify_user(role, username, firstname, lastname, password);
+			response.sendRedirect("admin.jsp");
 		} catch (Exception e) {
-			// nothing to do
-		}
 
+			session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(e.getMessage()));
+			// response.sendRedirect("admin.jsp");
+		}
 	}
 
 	/**

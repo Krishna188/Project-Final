@@ -1,3 +1,4 @@
+package Classes;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,16 +9,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class Modify
+ * Servlet implementation class Logout
  */
-@WebServlet("/Modify")
-public class Modify extends HttpServlet {
+@WebServlet("/Logout")
+public class Logout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Modify() {
+	public Logout() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -28,22 +29,16 @@ public class Modify extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		String firstname = request.getParameter("fname");
-		String lastname = request.getParameter("lname");
-		String role = request.getParameter("role");
-
 		HttpSession session = request.getSession();
 
-		try {
-			new Logic().modify_user(role, username, firstname, lastname, password);
-			response.sendRedirect("admin.jsp");
-		} catch (Exception e) {
+		if (session != null) {
+			session.removeAttribute("username");
+			session.setAttribute("result",
+					new Display(Display.Type.SUCCESS).getHtml("You have logged out successfully"));
 
-			session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(e.getMessage()));
-			// response.sendRedirect("admin.jsp");
+			response.sendRedirect("index.jsp");
 		}
+
 	}
 
 	/**

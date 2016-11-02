@@ -1,3 +1,4 @@
+package Classes;
 
 public enum Query {
 	// a sql query to to validate username and password combinations

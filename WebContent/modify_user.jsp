@@ -1,13 +1,36 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@include file="includes/pageRedirect.jsp"%>
+<%@ page import="Classes.Display" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
 <%@include file="includes/head.html"%>
 <%
+	
 	session = request.getSession();
+	if (session.getAttribute("username") == null) {
+		RequestDispatcher dd = request.getRequestDispatcher("index.jsp");
+		dd.forward(request, response);
+	}
+	if(session.getAttribute("role") == null)
+	{
+		session.setAttribute("result",new Display(Display.Type.WARNING).getHtml("Login as admin to use this function!"));
+		RequestDispatcher dd = request.getRequestDispatcher("index.jsp");
+		dd.forward(request, response);
+	}
+	else if(!session.getAttribute("role").toString().equals("ADMIN"))
+	{
+		session.setAttribute("result",new Display(Display.Type.WARNING).getHtml("Action not allowed!"));
+		RequestDispatcher dd = request.getRequestDispatcher(session.getAttribute("role").toString().toLowerCase().concat(".jsp"));
+		dd.forward(request, response);
+	}
+	else if(session.getAttribute("USERNAME") == null || session.getAttribute("ROLE") == null || session.getAttribute("FIRSTNAME") == null || session.getAttribute("LASTNAME") == null)
+	{
+		session.setAttribute("result",new Display(Display.Type.WARNING).getHtml("Action not allowed!"));
+		RequestDispatcher dd = request.getRequestDispatcher(session.getAttribute("role").toString().toLowerCase().concat(".jsp"));
+		dd.forward(request, response);
+	}
 %>
 </head>
 <body>
