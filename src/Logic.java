@@ -111,10 +111,7 @@ public class Logic {
 			session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 		}
 	}
-<<<<<<< Updated upstream
 	
-=======
->>>>>>> Stashed changes
 	public String get_teacher_list() throws Exception {
 
 		String data = " ";
@@ -145,10 +142,6 @@ public class Logic {
 			data = new Display(Display.Type.INFO).getHtml("No Teachers added.");
 		}
 		return data;
-<<<<<<< Updated upstream
-=======
-		
->>>>>>> Stashed changes
 	}
 	
 	public String get_student_list() throws Exception
@@ -185,7 +178,6 @@ public class Logic {
 		return data;
 	}
 	
-<<<<<<< Updated upstream
 	public boolean add_user(String username, String password, String role, String firstname, String lastname) throws Exception
 	{
 		username = username.toUpperCase().trim();
@@ -214,7 +206,6 @@ public class Logic {
 		}
 	}
 	
-=======
 	public boolean modify_user(String role,String username, String firstname, String lastname,String password) throws Exception {
 		String query = String.format(Query.MODIFY_USER.toString(),role,firstname.toUpperCase().trim(),lastname.toUpperCase().trim() ,username);
 		boolean data = database.executeDML(query, 1);
@@ -234,5 +225,4 @@ public class Logic {
 		
 		return data;
 	}
->>>>>>> Stashed changes
 }
