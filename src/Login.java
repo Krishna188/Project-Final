@@ -61,17 +61,25 @@ public class Login extends HttpServlet {
 					// before loading timetable for student do following
 					if(data.get("ROLE").equals("STUDENT"))
 					{
-						new Logic().getStudentExam(session);
+						new Logic().getExam(session);
 					}
 					else if(data.get("ROLE").equals("TEACHER")) 
 					{
 						try
 						{
-							new Logic().getStudentExam(session);
+							new Logic().getExam(session);
 						}
 						catch(Exception ex)
 						{
 							session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
+						}
+						try
+						{
+							
+						}
+						catch(Exception ex)
+						{
+							
 						}
 					} else if(data.get("ROLE").equals("ADMIN")){
 						try{

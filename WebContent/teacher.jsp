@@ -48,6 +48,5 @@
 
         </div>
     </body>
-  
         <%@include file="includes/foot.html" %>
 </html>

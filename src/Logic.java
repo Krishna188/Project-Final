@@ -100,7 +100,7 @@ public class Logic {
 		}
 	}
 	
-	public void getStudentExam(HttpSession session)
+	public void getExam(HttpSession session)
 	{
 		try
 		{
@@ -225,4 +225,17 @@ public class Logic {
 		
 		return data;
 	}
+	
+	public boolean change_name(String fname, String lname, String username, String role) throws Exception
+	{
+		String query = String.format(Query.MODIFY_USER.toString(),role,fname,lname,username);
+		return database.executeDML(query, 1);
+	}
+	
+	public boolean change_password(String password, String username) throws Exception
+	{
+		String query = String.format(Query.CHANGE_PASSWORD.toString(),password,username);
+		return database.executeDML(query, 1);
+	}
+	
 }

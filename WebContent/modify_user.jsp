@@ -48,6 +48,5 @@
 
 
     </body>  
-      <%@include file="includes/foot.html" %>
-    
+      <%@ include file="includes/foot.html" %>
 </html>
