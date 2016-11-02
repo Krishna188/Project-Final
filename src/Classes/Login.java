@@ -64,18 +64,22 @@ public class Login extends HttpServlet {
 
 					// before loading timetable for student do following
 					if (data.get("ROLE").equals("STUDENT")) {
-						new Logic().getExam(session);
+						try{
+						session.setAttribute("scheduled_courses", new Logic().get_student_exams(username));
+							
+						} catch(Exception ex) {
+							session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
+						}
 					} else if (data.get("ROLE").equals("TEACHER")) {
 						try {
-							new Logic().getExam(session);
+							session.setAttribute("scheduled_courses", new Logic().get_student_exams(username));
+							
+							session.setAttribute("courses", new Logic().get_all_courses(username));
+							session.setAttribute("rooms", new Logic().get_all_rooms());
 						} catch (Exception ex) {
 							session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 						}
-						try {
-
-						} catch (Exception ex) {
-
-						}
+						
 					} else if (data.get("ROLE").equals("ADMIN")) {
 						try {
 							session.setAttribute("data2", new Logic().get_teacher_list());
@@ -84,9 +88,6 @@ public class Login extends HttpServlet {
 							session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 						}
 					}
-
-					// printed confirmed role
-					System.out.println(data.get("ROLE"));
 
 					// redirect to role page URL
 					response.sendRedirect(data.get("ROLE").toLowerCase().trim().toString() + ".jsp");

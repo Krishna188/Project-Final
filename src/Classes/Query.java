@@ -44,20 +44,21 @@ public enum Query {
 	EDIT_ROLE("UPDATE USER SET ROLE='%s' WHERE USERNAME='%s'"),
 
 	// a sql query to insert users into user table
-	INSERT_INTO_USER("INSERT INTO USER VALUES ('%s', '%s', '%s')"), // ACCEPTS
-																	// USERNAME,
-																	// PASS,
-																	// ROLE
+	INSERT_INTO_USER("INSERT INTO USER VALUES ('%s', '%s', '%s')"), // ACCEPTS USERNAME, PASS, ROLE
 
 	// a sql query to insert user's name to role specified table
 	INSERT_INTO_ROLE("INSERT INTO %s VALUES ('%s', '%s', '%s')"),
 
-	DELETE_USER_USERNAME("DELETE FROM USER WHERE USERNAME='%s'"),
-
 	GET_ROLE("SELECT ROLE FROM USER WHERE USERNAME= '%s'"),
 
 	MODIFY_USER("UPDATE %s SET FIRSTNAME='%s',LASTNAME='%s' WHERE USERNAME='%s'"), CHANGE_PASSWORD(
-			"UPDATE USER SET PASSWORD= '%s' WHERE USERNAME='%s'"), DELETE_USER("DELETE FROM USER WHERE USERNAME = '%s'")
+			"UPDATE USER SET PASSWORD= '%s' WHERE USERNAME='%s'"), 
+	
+	DELETE_USER("DELETE FROM USER WHERE USERNAME = '%s'"),
+	
+	GET_SCHEDULED_EXAM("SELECT * FROM EXAM_BOOKINGS WHERE ROOM_NO='%s' AND EXAM_DATE='%s' ORDER BY END_TIME"),
+
+	SCHEDULE_EXAM("INSERT INTO EXAM_BOOKINGS VALUES  ('%s','%s','%s','%s','%s')")
 
 	;
 

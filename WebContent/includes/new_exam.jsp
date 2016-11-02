@@ -1,12 +1,15 @@
 <div class="col-sm-12">
-	<form method="" action="Exam" id="new_exam">
+	<form method="POST" action="Schedule_Exam" id="new_exam">
 		<section class="col-sm-8">
 			<fieldset>
 				<legend>Add Exam Details</legend>
-				${courses} ${rooms}
+				<!-- Display courses that is being taught by teacher or learned by students -->
+				${courses} 
+				<!-- Display all rooms available within organization  -->
+				${rooms}
 				<div class="form-group">
 					<label class="label label-info form-control">Date</label><br>
-					<input type="date" name="start_date" placeholder="YYYY-MM-DD"
+					<input type="date" name="date" placeholder="YYYY-MM-DD"
 						style="text-transform: uppercase" required="required"
 						pattern="\d{4}-\d{2}-\d{2}">
 				</div>
