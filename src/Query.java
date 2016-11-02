@@ -40,6 +40,7 @@ public enum Query {
 	//a sql query to update role
 	EDIT_ROLE("UPDATE USER SET ROLE='%s' WHERE USERNAME='%s'"),
 	
+<<<<<<< Updated upstream
 	//a sql query to insert users into user table
 	INSERT_INTO_USER("INSERT INTO USER VALUES ('%s', '%s', '%s')"), //ACCEPTS USERNAME, PASS, ROLE
 	
@@ -48,12 +49,20 @@ public enum Query {
 	
 	DELETE_USER_USERNAME("DELETE FROM USER WHERE USERNAME='%s'");
 	
+=======
+	GET_ROLE("SELECT ROLE FROM USER WHERE USERNAME= '%s'"),
+	
+	MODIFY_USER("UPDATE %s SET FIRSTNAME='%s',LASTNAME='%s' WHERE USERNAME='%s'"),
+	CHANGE_PASSWORD("UPDATE USER SET PASSWORD= '%s' WHERE USERNAME='%s'"),
+	DELETE_USER("DELETE FROM USER WHERE USERNAME = '%s'")
+
+>>>>>>> Stashed changes
 	;
 	
 
 	  private final String command;
 
-	  //constucter to set command
+	  //constructor to set command
 	  private Query(String command) {
 	    this.command = command;
 	  }

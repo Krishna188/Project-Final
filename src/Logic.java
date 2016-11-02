@@ -50,12 +50,9 @@ public class Logic {
 	public HashMap<String,String> get_info(String username) throws Exception 
 	{
 		
-		HashMap<String,String> data =new HashMap<>();
-		
-		String query = String.format(Query.SELECT_ALL_FROM.toString(), "USER",username.trim().toUpperCase());
-		
-		ArrayList<HashMap<String,String>> user = database.execute(query);
-		
+		HashMap<String,String> data =new HashMap<>();		
+		String query = String.format(Query.SELECT_ALL_FROM.toString(), "USER",username.trim().toUpperCase());		
+		ArrayList<HashMap<String,String>> user = database.execute(query);	
 		query = String.format(Query.SELECT_ALL_FROM.toString(),user.get(0).get("ROLE").toUpperCase().trim(),username.trim().toUpperCase() );
 		
 		user.addAll(database.execute(query));
@@ -114,7 +111,10 @@ public class Logic {
 			session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 		}
 	}
+<<<<<<< Updated upstream
 	
+=======
+>>>>>>> Stashed changes
 	public String get_teacher_list() throws Exception {
 
 		String data = " ";
@@ -124,15 +124,16 @@ public class Logic {
 			if(teachers.size() != 0)
 			{
 				data = "<table class=\"table table-striped table-bordered table-hover table-responsive \">"
-						+ "<tr> <th>USERNAME</th> <th>FIRST NAME</th> <th>LAST NAME</th> </tr>";
+						+ "<tr> <th>USERNAME</th> <th>FIRST NAME</th> <th>LAST NAME</th><th>EDIT</th><th>DELETE</th> </tr>";
 			
 				for(int i=0 ; i < teachers.size(); i++)
 				{
-					data += String.format("<tr> <td>%s</td> <td>%s</td> <td>%s</td> </tr>",
+					data += String.format("<tr> <td>%s</td> <td>%s</td> <td>%s</td><td>%s</td><td> %s</td> </tr>",
 							teachers.get(i).get("USERNAME").toString(),teachers.get(i).get("FIRSTNAME").toString(),
-							teachers.get(i).get("LASTNAME").toString());
-					
-				}
+							teachers.get(i).get("LASTNAME").toString(),
+							"<a href=\"Edit?username="+(teachers.get(i).get("USERNAME").toString())+"\"><span class=\"glyphicon glyphicon-pencil\"></span></a>",
+							"<a href=\"Delete?username="+teachers.get(i).get("USERNAME").toString()+"\"><span class=\"glyphicon glyphicon-remove\"></span></a>");
+					}
 				data += "</table>";
 			}
 		} 
@@ -144,6 +145,10 @@ public class Logic {
 			data = new Display(Display.Type.INFO).getHtml("No Teachers added.");
 		}
 		return data;
+<<<<<<< Updated upstream
+=======
+		
+>>>>>>> Stashed changes
 	}
 	
 	public String get_student_list() throws Exception
@@ -156,14 +161,14 @@ public class Logic {
 			if(students.size() != 0)
 			{
 				data = "<table class=\"table table-striped table-bordered table-hover table-responsive \">"
-						+ "<tr> <th>USERNAME</th> <th>FIRST NAME</th> <th>LAST NAME</th><th colspan=\"2\">Actions</th> </tr>";
+						+ "<tr> <th>USERNAME</th> <th>FIRST NAME</th> <th>LAST NAME</th><th>EDIT</th> <th>DELETE</th> </tr>";
 				for(int i=0 ; i < students.size(); i++)
 				{
-					data += String.format("<tr> <td>%s</td> <td>%s</td> <td>%s</td><td>%s %s</td> </tr>",
+					data += String.format("<tr> <td>%s</td> <td>%s</td> <td>%s</td><td>%s</td><td> %s</td> </tr>",
 							students.get(i).get("USERNAME").toString(),students.get(i).get("FIRSTNAME").toString(),
 							students.get(i).get("LASTNAME").toString(),
-							"<a href=\"Delete?username="+students.get(i).get("USERNAME").toString()+"\">Delete</a>",
-							"<a href=\"Edit?username="+(students.get(i).get("USERNAME").toString())+"\">Edit</a>")
+							"<a href=\"Edit?username="+(students.get(i).get("USERNAME").toString())+"\"><span class=\"glyphicon glyphicon-pencil\"></span></a>",
+							"<a href=\"Delete?username="+students.get(i).get("USERNAME").toString()+"\"><span class=\"glyphicon glyphicon-remove\"></span></a>")
 							;
 					
 				}
@@ -180,6 +185,7 @@ public class Logic {
 		return data;
 	}
 	
+<<<<<<< Updated upstream
 	public boolean add_user(String username, String password, String role, String firstname, String lastname) throws Exception
 	{
 		username = username.toUpperCase().trim();
@@ -208,4 +214,25 @@ public class Logic {
 		}
 	}
 	
+=======
+	public boolean modify_user(String role,String username, String firstname, String lastname,String password) throws Exception {
+		String query = String.format(Query.MODIFY_USER.toString(),role,firstname.toUpperCase().trim(),lastname.toUpperCase().trim() ,username);
+		boolean data = database.executeDML(query, 1);
+		if(data) {
+			query = String.format(Query.CHANGE_PASSWORD.toString(),password,username );
+			data = database.executeDML(query, 1);
+					
+		} else {
+			return false;
+		}
+		return data;
+	}
+	
+	public boolean delete_user(String username) throws Exception {
+		String query = String.format(Query.DELETE_USER.toString(),username);
+		boolean data = database.executeDML(query, 1);
+		
+		return data;
+	}
+>>>>>>> Stashed changes
 }

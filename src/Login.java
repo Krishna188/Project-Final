@@ -83,7 +83,11 @@ public class Login extends HttpServlet {
 							session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 						}
 					}
+<<<<<<< Updated upstream
 					
+=======
+
+>>>>>>> Stashed changes
 					// printed confirmed role
 					System.out.println(data.get("ROLE"));
 
