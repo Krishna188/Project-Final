@@ -60,7 +60,10 @@ public enum Query {
 
 	SCHEDULE_EXAM("INSERT INTO EXAM_BOOKINGS VALUES  ('%s','%s','%s','%s','%s')"),
 	
-	ADD_ROOM("INSERT INTO ROOMS VALUES ('%s','%s')")
+	ADD_ROOM("INSERT INTO ROOMS VALUES ('%s','%s')"),
+	
+	DELETE_ROOM("DELETE FROM ROOMS WHERE ROOM_NO='%s'"),
+	EDIT_ROOM("UPDATE ROOMS SET TYPE='%s' WHERE ROOM_NO='%s'")
 
 	;
 

@@ -248,7 +248,37 @@ public class Logic {
 			throw e;
 		}
 		if (data == " ") {
-			data = new Display(Display.Type.INFO).getHtml("You do not any room.");
+			data = new Display(Display.Type.ERROR).getHtml("There is no room.");
+		}
+		return data;
+	}
+
+	public String get_rooms() throws Exception {
+		String data = "";
+		try {
+			String query = String.format(Query.GET_ROOMS.toString());
+			ArrayList<HashMap<String, String>> rooms = database.execute(query);
+			if (rooms.size() != 0) {
+				data = "<table class=\"table table-striped table-bordered table-hover table-responsive \">"
+						+ "<tr> <th>ROOM NO</th> <th>TYPE</th><th>EDIT</th><th>DELETE</th> </tr>";
+
+				for (int i = 0; i < rooms.size(); i++) {
+					data += String.format("<tr> <td>%s</td> <td>%s</td> <td>%s</td> <td>%s</td> </tr>",
+							rooms.get(i).get("ROOM_NO").toString(), 
+							rooms.get(i).get("TYPE").toString(),
+							"<a href=\"edit_room.jsp?room_no=" + (rooms.get(i).get("ROOM_NO").toString())
+							+ "\"><span class=\"glyphicon glyphicon-pencil\"></span></a>",
+							"<a href=\"DeleteRoom?room_no=" + rooms.get(i).get("ROOM_NO").toString()
+							+ "\"><span class=\"glyphicon glyphicon-remove\"></span></a>");
+				
+				}
+				data += "</table>";
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+		if (data == " ") {
+			data = new Display(Display.Type.ERROR).getHtml("There is no room.");
 		}
 		return data;
 	}
@@ -386,5 +416,29 @@ public class Logic {
 		return success;
 	}
 	
+	public boolean delte_room(String room_no ) {
+		boolean success = false;
+		String query = String.format(Query.DELETE_ROOM.toString(), room_no);
+		
+		try{
+			success = database.executeDML(query, 1);
+		} catch(Exception e) {
+			
+		}
+		
+		return success;
+	}
 	
+	public boolean edit_room(String room_no , String type ) {
+		boolean success = false;
+		String query = String.format(Query.EDIT_ROOM.toString(), type.trim().toUpperCase() ,room_no.toUpperCase().trim());
+		
+		try{
+			success = database.executeDML(query, 1);
+		} catch(Exception e) {
+			
+		}
+		
+		return success;
+	}
 }

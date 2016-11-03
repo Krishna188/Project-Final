@@ -9,16 +9,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class Add_room
+ * Servlet implementation class Edit_room
  */
-@WebServlet("/Add_room")
-public class Add_room extends HttpServlet {
+@WebServlet("/Edit_room")
+public class Edit_room extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Add_room() {
+    public Edit_room() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,13 +31,12 @@ public class Add_room extends HttpServlet {
 		
 		String room_no = request.getParameter("room_no");
 		String type =request.getParameter("type");
-		if(new Logic().add_room(room_no,type)) {
-			session.setAttribute("result", new Display(Display.Type.SUCCESS).getHtml("Room added successfully"));
+		if(new Logic().edit_room(room_no,type)) {
+			session.setAttribute("result", new Display(Display.Type.SUCCESS).getHtml("Room edited successfully"));
 		} else {
-			session.setAttribute("result", new Display(Display.Type.ERROR).getHtml("Room could not added"));
+			session.setAttribute("result", new Display(Display.Type.ERROR).getHtml("Room could not edited"));
 		}
-		response.sendRedirect("admin.jsp");
-	}
+		response.sendRedirect("admin.jsp");	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
