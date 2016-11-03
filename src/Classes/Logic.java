@@ -287,23 +287,6 @@ public class Logic {
 		return result;
 	}
 
-	// public boolean validDateTime(String date , String start_time,String
-	// end_time) {
-	// boolean result = false;
-	// System.out.println("in valid time adn date");
-	// Calendar calendar = Calendar.getInstance();
-	// calendar.setTimeInMillis(System.currentTimeMillis());
-	// int mYear = calendar.get(Calendar.YEAR);
-	// int mMonth = calendar.get(Calendar.MONTH) + 1;
-	// int mDay = calendar.get(Calendar.DAY_OF_MONTH);
-	// String today = String.format("%d-%d-%d", mYear,mMonth,mDay);
-	//
-	// if(date.compareTo(today) > 0 && end_time.compareTo(start_time) >0) {
-	// result = true;
-	// System.out.println("valid time and date");
-	// }
-	// return result;
-	// }
 
 	public boolean validDate(String date) {
 		Calendar calendar = Calendar.getInstance();
@@ -381,5 +364,25 @@ public class Logic {
 			return false;
 		}
 	}
+	
+	
+//	public boolean validDateTime(String date , String start_time,String end_time) {
+//		boolean result = false;
+//		System.out.println("in valid time adn date");
+//		Calendar calendar = Calendar.getInstance();
+//		calendar.setTimeInMillis(System.currentTimeMillis());
+//		int mYear = calendar.get(Calendar.YEAR);
+//		int mMonth = calendar.get(Calendar.MONTH) + 1;
+//		int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+//		String today = String.format("%d-%d-%d", mYear,mMonth,mDay);
+//		
+//		if(date.compareTo(today) < 0 && end_time.compareTo(start_time) >0) {
+//			result = true;
+//			System.out.println("valid time and date");
+//		}
+//		return result;
+//	}
+//	
+	
 	
 }
