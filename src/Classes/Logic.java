@@ -1,4 +1,5 @@
 package Classes;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -68,19 +69,26 @@ public class Logic {
 	public String get_student_exams(String username) throws Exception {
 		String user = username.trim().toUpperCase();
 		String query = String.format(Query.SELECT_SCHEDULED_EXAMS.toString(), user);
-		ArrayList<HashMap<String, String>> data = database.execute(query);
-		if (data.isEmpty()) {
+		ArrayList<HashMap<String, String>> exams = database.execute(query);
+		
+		String data=" ";
+		if (exams.isEmpty()) {
 			return new Display(Display.Type.INFO).getHtml("No Exams Scheduled Yet!");
 		} else {
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < data.size(); i++) {
-				sb.append(String.format("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
-						data.get(i).get("COURSE_CODE").toString(), data.get(i).get("ROOM_NO").toString(),
-						data.get(i).get("EXAM_DATE").toString(), data.get(i).get("START_TIME").toString(),
-						data.get(i).get("END_TIME").toString()));
+			data = "<table class=\"table table-striped table-bordered table-hover table-responsive \">"
+					+ "<tr> <th>COURSE</th> <th>ROOM</th> <th>DATE</th><th>START TIME</th><th>END TIME</th> </tr>";
+
+			for (int i = 0; i < exams.size(); i++) {
+				data += String.format("<tr> <td>%s</td> <td>%s</td> <td>%s</td><td>%s</td><td> %s</td> </tr>",
+						exams.get(i).get("COURSE_CODE").toString(), exams.get(i).get("ROOM_NO").toString(),
+						exams.get(i).get("EXAM_DATE").toString(),
+						exams.get(i).get("START_TIME").toString(),
+						exams.get(i).get("END_TIME").toString()
+						);
 			}
-			return sb.toString();
+			data += "</table> ";
 		}
+		return data;
 	}
 
 	public String get_teacher_list() throws Exception {
@@ -196,120 +204,187 @@ public class Logic {
 		String query = String.format(Query.CHANGE_PASSWORD.toString(), password, username);
 		return database.executeDML(query, 1);
 	}
-	
 
 	public String get_all_courses(String username) throws Exception {
 		String uname = username.toUpperCase().trim();
-		String data ="";
+		String data = "";
 		try {
 			String query = String.format(Query.GET_COURSES.toString(), uname);
-			ArrayList<HashMap<String,String>> courses = database.execute(query);
-			if(courses.size() != 0)
-			{
-				data +="<div class=\"form-group\"><label class=\"label label-primary\" for=\"course\">Select Course</label>";
-				data+= "<select id=\"course\" name=\"course\" class=\"form-control animated bounceInRight\" required=\"required\">";
-				for(int i=0 ; i < courses.size(); i++)
-				{
-					data += "<option value="+courses.get(i).get("COURSE_CODE")+ ">" +courses.get(i).get("COURSE_CODE") +"</option>";
+			ArrayList<HashMap<String, String>> courses = database.execute(query);
+			if (courses.size() != 0) {
+				data += "<div class=\"form-group\"><label class=\"label label-primary\" for=\"course\">Select Course</label>";
+				data += "<select id=\"course\" name=\"course\" class=\"form-control animated bounceInRight\" required=\"required\">";
+				for (int i = 0; i < courses.size(); i++) {
+					data += "<option value=" + courses.get(i).get("COURSE_CODE") + ">"
+							+ courses.get(i).get("COURSE_CODE") + "</option>";
 				}
-				data +="</select> </div>";
+				data += "</select> </div>";
 			}
-		} 
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw e;
 		}
-		if(data == " ")
-		{
+		if (data == " ") {
 			data = new Display(Display.Type.INFO).getHtml("You have not any course.");
 		}
 		return data;
 	}
+
 	
 	public String get_all_rooms() throws Exception {
-		String data ="";
+		String data = "";
 		try {
 			String query = String.format(Query.GET_ROOMS.toString());
-			ArrayList<HashMap<String,String>> rooms = database.execute(query);
-			if(rooms.size() != 0)
-			{
-				data +="<div class=\"form-group\"><label class=\"label label-primary\" for=\"course\">Select Room</label>";
-				data+= "<select id=\"room\" name=\"room_no\" class=\"form-control animated bounceInRight\" required=\"required\">";
-				for(int i=0 ; i < rooms.size(); i++)
-				{
-					data += "<option value="+rooms.get(i).get("ROOM_NO")+ ">" +rooms.get(i).get("ROOM_NO")+" - "+ rooms.get(i).get("TYPE")+"</option>";
+			ArrayList<HashMap<String, String>> rooms = database.execute(query);
+			if (rooms.size() != 0) {
+				data += "<div class=\"form-group\"><label class=\"label label-primary\" for=\"course\">Select Room</label>";
+				data += "<select id=\"room\" name=\"room_no\" class=\"form-control animated bounceInRight\" required=\"required\">";
+				for (int i = 0; i < rooms.size(); i++) {
+					data += "<option value=" + rooms.get(i).get("ROOM_NO") + ">" + rooms.get(i).get("ROOM_NO") + " - "
+							+ rooms.get(i).get("TYPE") + "</option>";
 				}
-				data +="</select> </div>";
+				data += "</select> </div>";
 			}
-		} 
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw e;
 		}
-		if(data == " ")
-		{
+		if (data == " ") {
 			data = new Display(Display.Type.INFO).getHtml("You do not any room.");
 		}
 		return data;
 	}
+
+	public boolean schedule_exam(String course, String room, String date, String start_time, String end_time) {
+		boolean result = false;
 	
-	
-	public boolean schedule_exam(String course,String room, String date ,String start_time , String end_time ) {
-		boolean result=false;
-		System.out.println("in schedule exam");
-		ArrayList<HashMap<String,String>> scheduled_exams = new ArrayList<HashMap<String,String>>();
-		String query = String.format(Query.GET_SCHEDULED_EXAM.toString(), room,date);
-		
-		if(validDateTime(date, start_time, end_time)) {
+		ArrayList<HashMap<String, String>> scheduled_exams = new ArrayList<HashMap<String, String>>();
+		String query = String.format(Query.GET_SCHEDULED_EXAM.toString(), room, date);
+
+		if (validTime(start_time, end_time) && validDate(date)) {
 			try {
 				scheduled_exams = database.execute(query);
-				
-				if(scheduled_exams.size() == 0) {
-					
-					query = String.format(Query.SCHEDULE_EXAM.toString(), course,room,date,start_time,end_time);
-					System.out.println(query);
+
+				if (scheduled_exams.size() == 0) {
+
+					query = String.format(Query.SCHEDULE_EXAM.toString(), course, room, date, start_time, end_time);
 					result = database.executeDML(query, 1);
-					System.out.println(result);
-				}
-				for(int i = 0; i < scheduled_exams.size() ; i++ ){
-					if(i ==  scheduled_exams.size()-1) {
-						
-						query = String.format(Query.SCHEDULE_EXAM.toString(), course,room,date,start_time,end_time);
-						result = database.executeDML(query, 1);
-					}else if(scheduled_exams.get(i).get("END_TIME").toString().compareTo(start_time) <= 0 &&
-							scheduled_exams.get(i+1).get("START_TIME").toString().compareTo(end_time) >= 0 
-							) {
-						query = String.format(Query.SCHEDULE_EXAM.toString(), course,room,date,start_time,end_time);
-						result = database.executeDML(query, 1);
-			
+
+				} 
+				else {
+
+					for (int i = 0; i < scheduled_exams.size(); i++) {
+						if (i == scheduled_exams.size() - 1 && validTimeForExam(scheduled_exams.get(i).get("END_TIME").toString(),start_time)) {
+							query = String.format(Query.SCHEDULE_EXAM.toString(), course, room, date, start_time,
+									end_time);
+							result = database.executeDML(query, 1);
+						} else if (validTimeForExam(scheduled_exams.get(i).get("END_TIME").toString(),start_time)
+								&& validTimeForExam(end_time , scheduled_exams.get(i + 1).get("START_TIME").toString())) {
+							query = String.format(Query.SCHEDULE_EXAM.toString(), course, room, date, start_time,
+									end_time);
+							result = database.executeDML(query, 1);
+
+						}
 					}
 				}
 				return result;
 			} catch (Exception e) {
-				
+
 			}
 		} else {
-			result =false;
+			result = false;
 		}
 		return result;
 	}
-	
-	
-	public boolean validDateTime(String date , String start_time,String end_time) {
-		boolean result = false;
-		System.out.println("in valid time adn date");
+
+
+	public boolean validDate(String date) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
+		// current date
 		int mYear = calendar.get(Calendar.YEAR);
 		int mMonth = calendar.get(Calendar.MONTH) + 1;
 		int mDay = calendar.get(Calendar.DAY_OF_MONTH);
-		String today = String.format("%d-%d-%d", mYear,mMonth,mDay);
-		
-		if(date.compareTo(today) > 0 && end_time.compareTo(start_time) >0) {
-			result = true;
-			System.out.println("valid time and date");
+		// user provided date
+		int year = Integer.parseInt(date.split("-")[0]);
+		int month = Integer.parseInt(date.split("-")[1]);
+		int day = Integer.parseInt(date.split("-")[2]);
+
+		if (mYear == year) {
+			if (mMonth < month) {
+				return true;
+			} else if (mMonth == month) {
+				// check day
+				if (mDay < day) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		} else if (mYear < year) {
+			return true;
+		} else {
+			return false;
 		}
-		return result;
+	}
+
+	public  boolean validTime(String start_time, String end_time) {
+		// start time
+		int start_hours = Integer.parseInt(start_time.split(":")[0]);
+		int start_minutes = Integer.parseInt(start_time.split(":")[1]);
+		// end time
+		int end_hours = Integer.parseInt(end_time.split(":")[0]);
+		int end_minutes = Integer.parseInt(end_time.split(":")[1]);
+
+		if (start_hours < 0 || start_hours > 23 || end_hours < 0 || end_hours > 23 || start_minutes < 0
+				|| end_minutes < 0 || start_minutes > 59 || end_minutes > 59) {
+			return false;
+		}
+
+		if (start_hours < end_hours) {
+			return true;
+		} else if (start_hours == end_hours) {
+			return start_minutes < end_minutes;
+		} else {
+			return false;
+		}
+	}
+
+	
+	public  boolean validTimeForExam(String start_time, String end_time) {
+		// start time
+		int start_hours = Integer.parseInt(start_time.split(":")[0]);
+		int start_minutes = Integer.parseInt(start_time.split(":")[1]);
+		// end time
+		int end_hours = Integer.parseInt(end_time.split(":")[0]);
+		int end_minutes = Integer.parseInt(end_time.split(":")[1]);
+
+		if (start_hours < 0 || start_hours > 23 || end_hours < 0 || end_hours > 23 || start_minutes < 0
+				|| end_minutes < 0 || start_minutes > 59 || end_minutes > 59) {
+			return false;
+		}
+
+		if (start_hours < end_hours) {
+			return true;
+		} else if (start_hours == end_hours) {
+			return start_minutes <= end_minutes;
+		} else {
+			return false;
+		}
 	}
 	
+	public boolean add_room(String room_no , String type ) {
+		boolean success = false;
+		String query = String.format(Query.ADD_ROOM.toString(), room_no.toUpperCase().trim(), type.trim().toUpperCase());
+		
+		try{
+			success = database.executeDML(query, 1);
+		} catch(Exception e) {
+			
+		}
+		
+		return success;
+	}
 	
 	
 }
