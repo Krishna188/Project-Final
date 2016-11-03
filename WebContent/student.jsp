@@ -1,11 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@include file="includes/pageRedirect.jsp"%>
+<%@page import="Classes.Display" %>
+<%@page import="Classes.Logic" %>
+
 <%
 	if(!session.getAttribute("role").toString().equals("STUDENT"))
 	{
 		response.sendRedirect(session.getAttribute("role").toString().toLowerCase().concat(".jsp"));
 	}
+
+	try{
+			session.setAttribute("scheduled_courses", new Logic().get_student_exams(session.getAttribute("username").toString()));
+			
+		} catch(Exception ex) {
+			session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
+		}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -40,14 +50,15 @@
 						<th>End Time</th>
 					</tr>
 					<!--Input Data here if the data is available i.e. if the exams are scheduled-->
-					${result}
-					<% session.setAttribute("result", ""); %>
-				</table>
+						</table>
 			</div>
 			<!-- Displayer Above -->
 		</div>
 
 	</div>
+	${result}
+<% session.setAttribute("result", ""); %>
+			
 </body>
 <%@include file="includes/foot.html"%>
 

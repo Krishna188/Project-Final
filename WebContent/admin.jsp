@@ -1,10 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="includes/pageRedirect.jsp"%>
+<%@page import="Classes.Display" %>
+<%@page import="Classes.Logic" %>
 <%
 	if(!session.getAttribute("role").toString().equals("ADMIN"))
 	{
 		response.sendRedirect(session.getAttribute("role").toString().toLowerCase().concat(".jsp"));
+	}
+
+	try {
+		session.setAttribute("data2", new Logic().get_teacher_list());
+		session.setAttribute("data3", new Logic().get_student_list());
+	
+	} catch (Exception ex) {
+		session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 	}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -62,6 +72,21 @@
 							<div class="panel-body">${ data3 }</div>
 						</div>
 					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion"
+									href="#collapse5">Add Rooms</a>
+							</h4>
+						</div>
+						<div id="collapse5" class="panel-collapse collapse out">
+							<div class="panel-body"><%@include
+									file="includes/add_room.jsp"%></div>
+						</div>
+						
+					</div>
+					
+					
 				</div>
 			</div>
 			<div class="col-sm-1"></div>

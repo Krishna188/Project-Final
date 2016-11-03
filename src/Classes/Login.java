@@ -62,33 +62,7 @@ public class Login extends HttpServlet {
 					session.setAttribute("last", data.get("LASTNAME"));
 					session.setAttribute("pass", data.get("PASSWORD"));
 
-					// before loading timetable for student do following
-					if (data.get("ROLE").equals("STUDENT")) {
-						try{
-						session.setAttribute("scheduled_courses", new Logic().get_student_exams(username));
-							
-						} catch(Exception ex) {
-							session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
-						}
-					} else if (data.get("ROLE").equals("TEACHER")) {
-						try {
-							session.setAttribute("scheduled_courses", new Logic().get_student_exams(username));
-							
-							session.setAttribute("courses", new Logic().get_all_courses(username));
-							session.setAttribute("rooms", new Logic().get_all_rooms());
-						} catch (Exception ex) {
-							session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
-						}
-						
-					} else if (data.get("ROLE").equals("ADMIN")) {
-						try {
-							session.setAttribute("data2", new Logic().get_teacher_list());
-							session.setAttribute("data3", new Logic().get_student_list());
-						} catch (Exception ex) {
-							session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
-						}
-					}
-
+					
 					// redirect to role page URL
 					response.sendRedirect(data.get("ROLE").toLowerCase().trim().toString() + ".jsp");
 				} else {

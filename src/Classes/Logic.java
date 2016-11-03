@@ -69,20 +69,26 @@ public class Logic {
 	public String get_student_exams(String username) throws Exception {
 		String user = username.trim().toUpperCase();
 		String query = String.format(Query.SELECT_SCHEDULED_EXAMS.toString(), user);
-		ArrayList<HashMap<String, String>> data = database.execute(query);
+		ArrayList<HashMap<String, String>> exams = database.execute(query);
 		
-		if (data.isEmpty()) {
+		String data=" ";
+		if (exams.isEmpty()) {
 			return new Display(Display.Type.INFO).getHtml("No Exams Scheduled Yet!");
 		} else {
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < data.size(); i++) {
-				sb.append(String.format("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
-						data.get(i).get("COURSE_CODE").toString(), data.get(i).get("ROOM_NO").toString(),
-						data.get(i).get("EXAM_DATE").toString(), data.get(i).get("START_TIME").toString(),
-						data.get(i).get("END_TIME").toString()));
+			data = "<table class=\"table table-striped table-bordered table-hover table-responsive \">"
+					+ "<tr> <th>COURSE</th> <th>ROOM</th> <th>DATE</th><th>START TIME</th><th>END TIME</th> </tr>";
+
+			for (int i = 0; i < exams.size(); i++) {
+				data += String.format("<tr> <td>%s</td> <td>%s</td> <td>%s</td><td>%s</td><td> %s</td> </tr>",
+						exams.get(i).get("COURSE_CODE").toString(), exams.get(i).get("ROOM_NO").toString(),
+						exams.get(i).get("EXAM_DATE").toString(),
+						exams.get(i).get("START_TIME").toString(),
+						exams.get(i).get("END_TIME").toString()
+						);
 			}
-			return sb.toString();
+			data += "</table> ";
 		}
+		return data;
 	}
 
 	public String get_teacher_list() throws Exception {
@@ -223,6 +229,7 @@ public class Logic {
 		return data;
 	}
 
+	
 	public String get_all_rooms() throws Exception {
 		String data = "";
 		try {
@@ -248,7 +255,7 @@ public class Logic {
 
 	public boolean schedule_exam(String course, String room, String date, String start_time, String end_time) {
 		boolean result = false;
-		System.out.println("in schedule exam");
+	
 		ArrayList<HashMap<String, String>> scheduled_exams = new ArrayList<HashMap<String, String>>();
 		String query = String.format(Query.GET_SCHEDULED_EXAM.toString(), room, date);
 
@@ -321,7 +328,7 @@ public class Logic {
 		}
 	}
 
-	public static boolean validTime(String start_time, String end_time) {
+	public  boolean validTime(String start_time, String end_time) {
 		// start time
 		int start_hours = Integer.parseInt(start_time.split(":")[0]);
 		int start_minutes = Integer.parseInt(start_time.split(":")[1]);
@@ -344,7 +351,7 @@ public class Logic {
 	}
 
 	
-	public static boolean validTimeForExam(String start_time, String end_time) {
+	public  boolean validTimeForExam(String start_time, String end_time) {
 		// start time
 		int start_hours = Integer.parseInt(start_time.split(":")[0]);
 		int start_minutes = Integer.parseInt(start_time.split(":")[1]);
@@ -366,24 +373,18 @@ public class Logic {
 		}
 	}
 	
-	
-//	public boolean validDateTime(String date , String start_time,String end_time) {
-//		boolean result = false;
-//		System.out.println("in valid time adn date");
-//		Calendar calendar = Calendar.getInstance();
-//		calendar.setTimeInMillis(System.currentTimeMillis());
-//		int mYear = calendar.get(Calendar.YEAR);
-//		int mMonth = calendar.get(Calendar.MONTH) + 1;
-//		int mDay = calendar.get(Calendar.DAY_OF_MONTH);
-//		String today = String.format("%d-%d-%d", mYear,mMonth,mDay);
-//		
-//		if(date.compareTo(today) < 0 && end_time.compareTo(start_time) >0) {
-//			result = true;
-//			System.out.println("valid time and date");
-//		}
-//		return result;
-//	}
-//	
+	public boolean add_room(String room_no , String type ) {
+		boolean success = false;
+		String query = String.format(Query.ADD_ROOM.toString(), room_no.toUpperCase().trim(), type.trim().toUpperCase());
+		
+		try{
+			success = database.executeDML(query, 1);
+		} catch(Exception e) {
+			
+		}
+		
+		return success;
+	}
 	
 	
 }

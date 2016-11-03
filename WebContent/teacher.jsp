@@ -2,13 +2,21 @@
 	pageEncoding="UTF-8"%>
 <%@include file="includes/pageRedirect.jsp"%>
 <%@page import="Classes.Logic" %>
+<%@page import="Classes.Display" %>
 <%
 	if(!session.getAttribute("role").toString().equals("TEACHER"))
 	{
 		response.sendRedirect(session.getAttribute("role").toString().toLowerCase().concat(".jsp"));
 	}
-	session.setAttribute("scheduled_courses", new Logic().get_student_exams(session.getAttribute("username").toString()));
 	
+	try {
+		session.setAttribute("scheduled_courses", new Logic().get_student_exams(session.getAttribute("username").toString()));
+		
+		session.setAttribute("courses", new Logic().get_all_courses(session.getAttribute("username").toString()));
+		session.setAttribute("rooms", new Logic().get_all_rooms());
+	} catch (Exception ex) {
+		session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
+	}	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -29,18 +37,8 @@
 					</div>
 					<div id="collapse1" class="panel-collapse collapse in">
 						<div class="panel-body">
-							<!-- Table -->
-							<table class="table table-bordered table-hover table-condensed">
-								<tr>
-									<th>Course Code</th>
-									<th>Room Number</th>
-									<th>Date</th>
-									<th>Start Time</th>
-									<th>End Time</th>
-								</tr>
-								<!--Input Data here if the data is available i.e. if the exams are scheduled-->
-								${scheduled_courses}
-							</table>
+							<!--Input Data here if the data is available i.e. if the exams are scheduled-->
+							${scheduled_courses}
 						</div>
 					</div>
 				</div>

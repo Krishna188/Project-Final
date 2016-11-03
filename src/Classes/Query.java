@@ -9,7 +9,7 @@ public enum Query {
 
 	// a sql query to select exams which was already scheduled
 	SELECT_SCHEDULED_EXAMS(
-			"SELECT * FROM EXAM_BOOKINGS INNER JOIN USER_COURSES ON EXAM_BOOKINGS.COURSE_CODE = USER_COURSES.COURSE_CODE "
+			"SELECT DISTINCT * FROM EXAM_BOOKINGS INNER JOIN USER_COURSES ON EXAM_BOOKINGS.COURSE_CODE = USER_COURSES.COURSE_CODE "
 					+ "WHERE USER_COURSES.USERNAME='%s' ORDER BY EXAM_DATE"),
 
 	// a sql query to get course code all courses being taught or taken by
@@ -58,7 +58,9 @@ public enum Query {
 	
 	GET_SCHEDULED_EXAM("SELECT * FROM EXAM_BOOKINGS WHERE ROOM_NO='%s' AND EXAM_DATE='%s' ORDER BY END_TIME"),
 
-	SCHEDULE_EXAM("INSERT INTO EXAM_BOOKINGS VALUES  ('%s','%s','%s','%s','%s')")
+	SCHEDULE_EXAM("INSERT INTO EXAM_BOOKINGS VALUES  ('%s','%s','%s','%s','%s')"),
+	
+	ADD_ROOM("INSERT INTO ROOMS VALUES ('%s','%s')")
 
 	;
 
