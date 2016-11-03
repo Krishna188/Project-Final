@@ -12,6 +12,7 @@
 	try {
 		session.setAttribute("data2", new Logic().get_teacher_list());
 		session.setAttribute("data3", new Logic().get_student_list());
+		session.setAttribute("rooms",new Logic().get_rooms());
 	
 	} catch (Exception ex) {
 		session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
@@ -86,6 +87,17 @@
 						
 					</div>
 					
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion"
+									href="#collapse6">View Rooms</a>
+							</h4>
+						</div>
+						<div id="collapse6" class="panel-collapse collapse out">
+							<div class="panel-body">${ rooms }</div>
+						</div>
+					</div>
 					
 				</div>
 			</div>

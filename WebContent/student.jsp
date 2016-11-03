@@ -11,8 +11,7 @@
 	}
 
 	try{
-			session.setAttribute("scheduled_courses", new Logic().get_student_exams(session.getAttribute("username").toString()));
-			
+			session.setAttribute("exam_timetable", new Logic().get_student_exams(session.getAttribute("username").toString()));
 		} catch(Exception ex) {
 			session.setAttribute("result", new Display(Display.Type.ERROR).getHtml(ex.getMessage()));
 		}
@@ -39,22 +38,16 @@
 
 		<div class="row">
 			<!-- Student Timetable displayer -->
+			<div class="col-sm-1"></div>
+			<div class="col-sm-10">
 			<div class="panel panel-default">
 				<!-- Table -->
-				<table class="table table-bordered table-hover table-condensed">
-					<tr>
-						<th>Course Code</th>
-						<th>Room Number</th>
-						<th>Date</th>
-						<th>Start Time</th>
-						<th>End Time</th>
-					</tr>
-					<!--Input Data here if the data is available i.e. if the exams are scheduled-->
-						</table>
-			</div>
+				${exam_timetable}
 			<!-- Displayer Above -->
 		</div>
-
+		</div>
+		<div class="col-sm-1"></div>
+		
 	</div>
 	${result}
 <% session.setAttribute("result", ""); %>

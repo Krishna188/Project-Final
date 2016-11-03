@@ -9,16 +9,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class Add_room
+ * Servlet implementation class DeleteRoom
  */
-@WebServlet("/Add_room")
-public class Add_room extends HttpServlet {
+@WebServlet("/DeleteRoom")
+public class DeleteRoom extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Add_room() {
+    public DeleteRoom() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,16 +27,17 @@ public class Add_room extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String room_no = request.getParameter("room_no");
 		HttpSession session = request.getSession();
 		
-		String room_no = request.getParameter("room_no");
-		String type =request.getParameter("type");
-		if(new Logic().add_room(room_no,type)) {
-			session.setAttribute("result", new Display(Display.Type.SUCCESS).getHtml("Room added successfully"));
+		if(new Logic().delte_room(room_no)) {
+			session.setAttribute("result", new Display(Display.Type.SUCCESS).getHtml("Room deleted successfully"));
 		} else {
-			session.setAttribute("result", new Display(Display.Type.ERROR).getHtml("Room could not added"));
+			session.setAttribute("result", new Display(Display.Type.ERROR).getHtml("Room could not be deleted successfully"));
 		}
 		response.sendRedirect("admin.jsp");
+		
+		
 	}
 
 	/**
