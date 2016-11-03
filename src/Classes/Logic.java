@@ -70,6 +70,7 @@ public class Logic {
 		String user = username.trim().toUpperCase();
 		String query = String.format(Query.SELECT_SCHEDULED_EXAMS.toString(), user);
 		ArrayList<HashMap<String, String>> data = database.execute(query);
+		
 		if (data.isEmpty()) {
 			return new Display(Display.Type.INFO).getHtml("No Exams Scheduled Yet!");
 		} else {
